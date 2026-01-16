@@ -1,0 +1,128 @@
+table Medidas
+	lineageTag: d4b589d7-31b9-4b10-a9b7-7ba2c975cb96
+
+	measure 'Total Spend' = ```
+			
+			SUMX(
+			    fCompras, 
+			    fCompras[Qtd] * fCompras[Preco_Unitario_Negociado]
+			)
+			```
+		formatString: "R$"\ #,0.00;-"R$"\ #,0.00;"R$"\ #,0.00
+		displayFolder: Financeiro
+		lineageTag: 881524af-0dd6-4588-8c47-61d2ba9ef640
+
+		annotation PBI_FormatHint = {"currencyCulture":"pt-BR"}
+
+	measure 'Total Saving Value' = ```
+			
+			SUMX(
+			    fCompras, 
+			    (fCompras[Preco_Tabela] - fCompras[Preco_Unitario_Negociado]) * fCompras[Qtd]
+			)
+			// Lógica: Quanto deixamos de gastar comparado ao preço de tabela.
+			```
+		displayFolder: Financeiro
+		lineageTag: 8c7a0a22-6780-4dbd-b814-8536f9224024
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Saving %' =
+			
+			DIVIDE(
+			    [Total Saving Value],
+			    SUMX(fCompras, fCompras[Preco_Tabela] * fCompras[Qtd]),
+			    0
+			)
+			// Formatação: Porcentagem (%)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Financeiro
+		lineageTag: 3ab92352-c525-42bf-94ac-c3a2bea59e5c
+
+	measure 'Lead Time Médio (Dias)' =
+			
+			CALCULATE(
+			    AVERAGEX(
+			        fCompras,
+			        DATEDIFF(fCompras[Data_Pedido], fCompras[Data_Entrega_Real], DAY)
+			    ),
+			    fCompras[Status_Entrega] <> "Pendente",
+			    NOT(ISBLANK(fCompras[Data_Entrega_Real]))
+			)
+			// Conta apenas linhas onde a entrega já ocorreu para não distorcer a média com nulls
+		displayFolder: Logistica
+		lineageTag: bc451df8-3a4b-4f92-8f87-1aa49b4555ae
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'OTIF %' = ```
+			
+			VAR PedidosNoPrazo = 
+			    CALCULATE(
+			        COUNTROWS(fCompras),
+			        fCompras[Status_Entrega] = "Entregue", // In Full (não devolvido)
+			        fCompras[Data_Entrega_Real] <= fCompras[Data_Entrega_Prevista] // On Time
+			    )
+			VAR TotalPedidosFinalizados = 
+			    CALCULATE(
+			        COUNTROWS(fCompras),
+			        fCompras[Status_Entrega] <> "Pendente" // Ignora o que ainda não chegou
+			    )
+			RETURN
+			    DIVIDE(PedidosNoPrazo, TotalPedidosFinalizados, 0)
+			// OTIF (On Time In Full) - O KPI Rei da Logística
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Logistica
+		lineageTag: 6e0db09c-dd77-4ca9-af92-38c714720ff0
+
+	measure 'Share of Wallet' =
+			
+			DIVIDE(
+			    [Total Spend],
+			    CALCULATE([Total Spend], ALL(dFornecedor))
+			)
+			// Pareto / Share: Quanto este fornecedor representa do meu gasto total?
+		displayFolder: Mercado
+		lineageTag: 3984ef8f-933e-4e42-9885-034eb8386114
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Contagem de Pedidos' = COUNTROWS(fCompras)
+		formatString: 0
+		displayFolder: Financeiro
+		lineageTag: 052ceac4-4c73-499c-b9d7-db729fa6eacb
+
+	measure 'Qtd Devoluções' =
+			
+			CALCULATE(
+			    COUNTROWS(fCompras),
+			    fCompras[Status_Entrega] = "Devolvido"
+			)
+		formatString: 0
+		displayFolder: Logistica
+		lineageTag: 42a19220-6ea2-4a78-98ea-cb3a7afddfc0
+
+	measure 'Lead Time Previsto (Dias)' =
+			
+			AVERAGEX(
+			    fCompras,
+			    DATEDIFF(fCompras[Data_Pedido], fCompras[Data_Entrega_Prevista], DAY)
+			)
+		displayFolder: Logistica
+		lineageTag: 2f7c2600-3a62-468b-9ca4-228dea034357
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition Medidas = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i44FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Column1 = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Column1", type text}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"Column1"})
+				in
+				    #"Removed Columns"
+
+	annotation PBI_ResultType = Table
+

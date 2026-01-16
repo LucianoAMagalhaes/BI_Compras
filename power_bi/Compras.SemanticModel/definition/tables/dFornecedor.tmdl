@@ -1,0 +1,34 @@
+table dFornecedor
+	lineageTag: 474c6dfd-54fd-456c-ac8e-8c78ff3bbbca
+
+	column ID_Fornecedor
+		dataType: string
+		lineageTag: 5b6b137f-0d0c-4c43-8303-bb2a23e42663
+		summarizeBy: none
+		sourceColumn: ID_Fornecedor
+
+		annotation SummarizationSetBy = Automatic
+
+	column Nome_Fornecedor
+		dataType: string
+		lineageTag: 9c0e8fd0-beb8-41af-a2cf-8db630ce29ed
+		summarizeBy: none
+		sourceColumn: Nome_Fornecedor
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dFornecedor = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("\\wsl.localhost\Ubuntu-22.04\home\luciano\20_Projects\BI_Compras\data\compras_dataset.csv"),[Delimiter=",", Columns=12, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Removed Other Columns" = Table.SelectColumns(#"Promoted Headers",{"ID_Fornecedor", "Nome_Fornecedor"}),
+				    #"Removed Duplicates" = Table.Distinct(#"Removed Other Columns", {"ID_Fornecedor"})
+				in
+				    #"Removed Duplicates"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

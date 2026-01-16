@@ -1,0 +1,21 @@
+# Ignorar arquivos temporários do Python
+__pycache__/
+*.py[cod]
+
+# Ignorar ambiente virtual (se estiver na pasta)
+.venv/
+env/
+
+# Ignorar IDEs
+.vscode/
+.idea
+
+# Ignorar Logs
+*.log
+
+# Ignorar arquivos de variáveis de ambiente (SENHAS!)
+.env
+
+# Ignora arquivos de cache local do usuário (Isso não deve ir pro Git)
+**/.pbi/localSettings.json
+**/.pbi/cache/

@@ -1,0 +1,162 @@
+table fCompras
+	lineageTag: c95d642e-3a21-488e-93c0-016f8ef46b35
+
+	column ID_Pedido
+		dataType: string
+		lineageTag: e56576cc-366b-4672-93d4-170ba8751f5c
+		summarizeBy: none
+		sourceColumn: ID_Pedido
+
+		annotation SummarizationSetBy = Automatic
+
+	column Data_Pedido
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 65490144-973d-4af0-897e-6f0ef4fce1a2
+		summarizeBy: none
+		sourceColumn: Data_Pedido
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Data_Entrega_Prevista
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: e44bd935-6d79-4061-9a48-97f6dea7cd50
+		summarizeBy: none
+		sourceColumn: Data_Entrega_Prevista
+
+		variation Variation
+			isDefault
+			relationship: a1421209-0957-4494-a4b1-72478336a128
+			defaultHierarchy: LocalDateTable_83f0af8b-4025-4cdf-89e7-7185b7b299d9.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Data_Entrega_Real
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: fc231250-dbe3-4270-aa17-729ed6f602f2
+		summarizeBy: none
+		sourceColumn: Data_Entrega_Real
+
+		variation Variation
+			isDefault
+			relationship: 5ef8da16-cf19-4dcb-8ca5-ff7e2ad43f4f
+			defaultHierarchy: LocalDateTable_e5510198-e9f8-4efc-bc28-22f9be856b8f.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column ID_Fornecedor
+		dataType: string
+		lineageTag: f24999e4-5769-47df-87ae-8cefdde88551
+		summarizeBy: none
+		sourceColumn: ID_Fornecedor
+
+		annotation SummarizationSetBy = Automatic
+
+	column Qtd
+		dataType: double
+		lineageTag: faff4de6-15a1-4ed2-ac7c-93b2805f5a15
+		summarizeBy: sum
+		sourceColumn: Qtd
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Preco_Unitario_Negociado
+		dataType: double
+		lineageTag: 9d2add14-46dc-41bf-9a20-62a581820bf7
+		summarizeBy: sum
+		sourceColumn: Preco_Unitario_Negociado
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Preco_Tabela
+		dataType: double
+		lineageTag: c9cce817-829c-47f5-8d53-1e1e83d079f9
+		summarizeBy: sum
+		sourceColumn: Preco_Tabela
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Status_Entrega
+		dataType: string
+		lineageTag: b4e40b8d-a12e-4db4-9269-29e0bb4fca0a
+		summarizeBy: none
+		sourceColumn: Status_Entrega
+
+		annotation SummarizationSetBy = Automatic
+
+	column ID_Produto
+		dataType: string
+		lineageTag: 99ab9a34-38c9-49d2-aaac-c800864dedab
+		summarizeBy: none
+		sourceColumn: ID_Produto
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Faixa Atraso' =
+			
+			SWITCH(TRUE(),
+			    fCompras[Status_Entrega] = "Devolvido", "Devolvido",
+			    fCompras[Status_Entrega] = "Pendente", "Pendente",
+			    fCompras[Data_Entrega_Real] <= fCompras[Data_Entrega_Prevista], "No Prazo",
+			    DATEDIFF(fCompras[Data_Entrega_Prevista], fCompras[Data_Entrega_Real], DAY) <= 3, "1-3 Dias Atraso",
+			    DATEDIFF(fCompras[Data_Entrega_Prevista], fCompras[Data_Entrega_Real], DAY) <= 7, "4-7 Dias Atraso",
+			    TRUE(), "+7 Dias Atraso"
+			)
+		lineageTag: 0a758857-d81c-43cb-88f6-7129ac31f40a
+		summarizeBy: none
+		sortByColumn: 'Ordem Atraso'
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Ordem Atraso' =
+			
+			SWITCH(TRUE(),
+			    fCompras[Status_Entrega] = "Devolvido", 6,
+			    fCompras[Status_Entrega] = "Pendente", 5,
+			    fCompras[Data_Entrega_Real] <= fCompras[Data_Entrega_Prevista], 1, -- No Prazo
+			    DATEDIFF(fCompras[Data_Entrega_Prevista], fCompras[Data_Entrega_Real], DAY) <= 3, 2, -- 1-3 Dias
+			    DATEDIFF(fCompras[Data_Entrega_Prevista], fCompras[Data_Entrega_Real], DAY) <= 7, 3, -- 4-7 Dias
+			    TRUE(), 4 -- +7 Dias
+			)
+		formatString: 0
+		lineageTag: 9d3fe5b4-4863-4f40-990c-3ecd0b5e4add
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fCompras = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("\\wsl.localhost\Ubuntu-22.04\home\luciano\20_Projects\BI_Compras\data\compras_dataset.csv"),[Delimiter=",", Columns=12, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Removed Columns" = Table.RemoveColumns(#"Promoted Headers",{"Nome_Fornecedor"}),
+				    #"Merged Queries" = Table.NestedJoin(#"Removed Columns", {"Produto"}, dProduto, {"Produto"}, "dProduto", JoinKind.LeftOuter),
+				    #"Expanded dProduto" = Table.ExpandTableColumn(#"Merged Queries", "dProduto", {"ID_Produto"}, {"ID_Produto"}),
+				    #"Removed Other Columns" = Table.SelectColumns(#"Expanded dProduto",{"ID_Pedido", "Data_Pedido", "Data_Entrega_Prevista", "Data_Entrega_Real", "ID_Fornecedor", "Qtd", "Preco_Unitario_Negociado", "Preco_Tabela", "Status_Entrega", "ID_Produto"}),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Removed Other Columns",{{"Data_Pedido", type date}, {"Data_Entrega_Prevista", type date}, {"Data_Entrega_Real", type date}, {"Qtd", type number}}),
+				    #"Changed Type with Locale" = Table.TransformColumnTypes(#"Changed Type", {{"Preco_Tabela", type number}}, "en-US"),
+				    #"Changed Type with Locale1" = Table.TransformColumnTypes(#"Changed Type with Locale", {{"Preco_Unitario_Negociado", type number}}, "en-US")
+				in
+				    #"Changed Type with Locale1"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

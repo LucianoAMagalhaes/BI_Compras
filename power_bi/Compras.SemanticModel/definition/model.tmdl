@@ -1,0 +1,26 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: pt-BR
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_ProTooling = ["DevMode"]
+
+annotation PBI_QueryOrder = ["fCompras","dFornecedor","dProduto","dCalendario","Medidas"]
+
+ref table fCompras
+ref table DateTableTemplate_5de93bbb-6737-4849-bce2-c297401e60e0
+ref table LocalDateTable_83f0af8b-4025-4cdf-89e7-7185b7b299d9
+ref table LocalDateTable_e5510198-e9f8-4efc-bc28-22f9be856b8f
+ref table dFornecedor
+ref table dProduto
+ref table dCalendario
+ref table LocalDateTable_73ceaa47-845b-46f5-8f09-d5d4d7d5aef3
+ref table Medidas
+
+ref cultureInfo en-US
+

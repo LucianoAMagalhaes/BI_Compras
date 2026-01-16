@@ -1,0 +1,27 @@
+relationship a1421209-0957-4494-a4b1-72478336a128
+	joinOnDateBehavior: datePartOnly
+	fromColumn: fCompras.Data_Entrega_Prevista
+	toColumn: LocalDateTable_83f0af8b-4025-4cdf-89e7-7185b7b299d9.Date
+
+relationship 5ef8da16-cf19-4dcb-8ca5-ff7e2ad43f4f
+	joinOnDateBehavior: datePartOnly
+	fromColumn: fCompras.Data_Entrega_Real
+	toColumn: LocalDateTable_e5510198-e9f8-4efc-bc28-22f9be856b8f.Date
+
+relationship 1ef84a58-fdb4-4ca3-980b-59e059b981c2
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dCalendario.Date
+	toColumn: LocalDateTable_73ceaa47-845b-46f5-8f09-d5d4d7d5aef3.Date
+
+relationship AutoDetected_9d826d83-3f5b-4a0a-a7ec-9cb75b63a096
+	fromColumn: fCompras.ID_Fornecedor
+	toColumn: dFornecedor.ID_Fornecedor
+
+relationship AutoDetected_031bd63c-58f3-4e0c-967a-5ca98676ae84
+	fromColumn: fCompras.ID_Produto
+	toColumn: dProduto.ID_Produto
+
+relationship 7447ae3c-1600-0a36-db97-7ad720190498
+	fromColumn: fCompras.Data_Pedido
+	toColumn: dCalendario.Date
+

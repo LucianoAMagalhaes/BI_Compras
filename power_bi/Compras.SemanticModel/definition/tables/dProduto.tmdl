@@ -1,0 +1,46 @@
+table dProduto
+	lineageTag: 1f0d3cac-d794-47e9-9146-240d4deda6e4
+
+	column Categoria_Produto
+		dataType: string
+		lineageTag: 668932b9-35f3-4ecc-b38a-e89e4422ee43
+		summarizeBy: none
+		sourceColumn: Categoria_Produto
+
+		annotation SummarizationSetBy = Automatic
+
+	column Produto
+		dataType: string
+		lineageTag: a5b2af28-4670-4f5d-8231-905ad4a9b7c9
+		summarizeBy: none
+		sourceColumn: Produto
+
+		annotation SummarizationSetBy = Automatic
+
+	column ID_Produto
+		dataType: string
+		lineageTag: 4944df23-5933-400a-92ee-84e5d2d26391
+		summarizeBy: none
+		sourceColumn: ID_Produto
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dProduto = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("\\wsl.localhost\Ubuntu-22.04\home\luciano\20_Projects\BI_Compras\data\compras_dataset.csv"),[Delimiter=",", Columns=12, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Removed Other Columns" = Table.SelectColumns(#"Promoted Headers",{"Categoria_Produto", "Produto"}),
+				    #"Removed Duplicates" = Table.Distinct(#"Removed Other Columns"),
+				    #"Added Index" = Table.AddIndexColumn(#"Removed Duplicates", "Index", 1, 1, Int64.Type),
+				    #"Renamed Columns" = Table.RenameColumns(#"Added Index",{{"Index", "Id_Produto"}}),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Renamed Columns",{{"Id_Produto", type text}}),
+				    #"Renamed Columns1" = Table.RenameColumns(#"Changed Type",{{"Id_Produto", "ID_Produto"}})
+				in
+				    #"Renamed Columns1"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
