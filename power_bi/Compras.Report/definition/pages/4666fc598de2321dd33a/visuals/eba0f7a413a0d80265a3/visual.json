@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
   "name": "eba0f7a413a0d80265a3",
   "position": {
-    "x": 9.5880149812734086,
-    "y": 496.17977528089887,
+    "x": 92.2337870296237,
+    "y": 496.01281024819855,
     "z": 2000,
-    "height": 213.33333333333334,
-    "width": 739.47565543071164,
+    "height": 213.16253002401922,
+    "width": 656.9095276220977,
     "tabOrder": 2000
   },
   "visual": {
@@ -47,7 +47,8 @@
                 }
               },
               "queryRef": "Medidas.Total Spend",
-              "nativeQueryRef": "Total Spend"
+              "nativeQueryRef": "Gasto Total",
+              "displayName": "Gasto Total"
             },
             {
               "field": {
@@ -130,7 +131,7 @@
             "value": {
               "expr": {
                 "Literal": {
-                  "Value": "190.32958745205406D"
+                  "Value": "171.9146349126409D"
                 }
               }
             }

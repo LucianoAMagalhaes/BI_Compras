@@ -1,0 +1,61 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "name": "2b66911bbec86e7428d4",
+  "position": {
+    "x": 216.92883895131087,
+    "y": 166.59176029962546,
+    "z": 0,
+    "height": 299.62546816479403,
+    "width": 795.80524344569289,
+    "tabOrder": 0
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "Dashboard ",
+                    "textStyle": {
+                      "fontFamily": "Calibri",
+                      "fontSize": "60pt",
+                      "color": "#2c3e50"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Análise de Compras",
+                    "textStyle": {
+                      "fontFamily": "Calibri",
+                      "fontSize": "60pt",
+                      "color": "#2c3e50"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Monitoramento de Spend, Eficiência de Fornecedores e KPIs Logísticos",
+                    "textStyle": {
+                      "fontSize": "14pt",
+                      "color": "#2c3e50"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

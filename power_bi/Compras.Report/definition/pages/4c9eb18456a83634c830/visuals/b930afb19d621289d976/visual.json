@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
   "name": "b930afb19d621289d976",
   "position": {
-    "x": 9.5880149812734086,
-    "y": 207.34082397003746,
-    "z": 7000,
-    "height": 275.65543071161051,
-    "width": 719.10112359550567,
-    "tabOrder": 7000
+    "x": 92.2337870296237,
+    "y": 207.01361088871096,
+    "z": 4000,
+    "height": 275.67654123298638,
+    "width": 636.41313050440351,
+    "tabOrder": 4000
   },
   "visual": {
     "visualType": "scatterChart",
@@ -252,7 +252,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Matriz de Desempenho: Volume (Spend) vs Eficiência (OTIF)'"
+                  "Value": "'Matriz de Desempenho: Volume (Gasto) vs Eficiência (OTIF)'"
                 }
               }
             }

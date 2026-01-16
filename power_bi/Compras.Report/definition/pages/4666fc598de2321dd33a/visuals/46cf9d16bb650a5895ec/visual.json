@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
   "name": "46cf9d16bb650a5895ec",
   "position": {
-    "x": 802.996254681648,
+    "x": 898.76701361088863,
     "y": 0,
     "z": 7000,
-    "height": 68.31460674157303,
-    "width": 231.31086142322098,
+    "height": 68.662930344275424,
+    "width": 185.49239391513208,
     "tabOrder": 7000
   },
   "visual": {
@@ -127,6 +127,11 @@
           }
         }
       ]
+    },
+    "syncGroup": {
+      "groupName": "Categoria_Produto",
+      "fieldChanges": true,
+      "filterChanges": true
     },
     "drillFilterOtherVisuals": true
   }

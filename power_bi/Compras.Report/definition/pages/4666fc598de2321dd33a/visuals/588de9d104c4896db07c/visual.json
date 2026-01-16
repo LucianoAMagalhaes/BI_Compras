@@ -46,7 +46,8 @@
                 }
               },
               "queryRef": "Medidas.Total Spend",
-              "nativeQueryRef": "Total Spend"
+              "nativeQueryRef": "Gasto Total",
+              "displayName": "Gasto Total"
             }
           ]
         }
@@ -314,6 +315,13 @@
               "expr": {
                 "Literal": {
                   "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Gasto Total por Categoria'"
                 }
               }
             }

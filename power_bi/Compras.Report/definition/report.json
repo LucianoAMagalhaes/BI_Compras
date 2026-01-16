@@ -68,6 +68,46 @@
           "name": "Custom4426592223541841.json",
           "path": "Custom4426592223541841.json",
           "type": "CustomTheme"
+        },
+        {
+          "name": "linkedin-white6609791509623663.png",
+          "path": "linkedin-white6609791509623663.png",
+          "type": "Image"
+        },
+        {
+          "name": "github-white6592502205972054.png",
+          "path": "github-white6592502205972054.png",
+          "type": "Image"
+        },
+        {
+          "name": "03_ICON_home-blue8562096582833069.png",
+          "path": "03_ICON_home-blue8562096582833069.png",
+          "type": "Image"
+        },
+        {
+          "name": "03_ICON_analise-blue6559450310706365.png",
+          "path": "03_ICON_analise-blue6559450310706365.png",
+          "type": "Image"
+        },
+        {
+          "name": "03_ICON_sales-blue9183467963938038.png",
+          "path": "03_ICON_sales-blue9183467963938038.png",
+          "type": "Image"
+        },
+        {
+          "name": "03_ICON_leatime-blue8715704626479949.png",
+          "path": "03_ICON_leatime-blue8715704626479949.png",
+          "type": "Image"
+        },
+        {
+          "name": "03_ICON_linkedin-blue009740457145708703.png",
+          "path": "03_ICON_linkedin-blue009740457145708703.png",
+          "type": "Image"
+        },
+        {
+          "name": "03_ICON_github-blue13538081954522152.png",
+          "path": "03_ICON_github-blue13538081954522152.png",
+          "type": "Image"
         }
       ]
     }

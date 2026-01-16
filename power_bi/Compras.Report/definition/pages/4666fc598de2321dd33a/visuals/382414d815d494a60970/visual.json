@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
   "name": "382414d815d494a60970",
   "position": {
-    "x": 9,
-    "y": 80.299625468164791,
+    "x": 92.2337870296237,
+    "y": 79.9359487590072,
     "z": 0,
-    "height": 115.0561797752809,
-    "width": 1262,
+    "height": 115.80464371497197,
+    "width": 1178.5428342674138,
     "tabOrder": 0
   },
   "visual": {
@@ -27,7 +27,8 @@
                 }
               },
               "queryRef": "Medidas.Total Spend",
-              "nativeQueryRef": "Total Spend"
+              "nativeQueryRef": "Gasto Total",
+              "displayName": "Gasto Total"
             },
             {
               "field": {
@@ -41,7 +42,8 @@
                 }
               },
               "queryRef": "Medidas.Total Saving Value",
-              "nativeQueryRef": "Total Saving Value"
+              "nativeQueryRef": "Total Saving",
+              "displayName": "Total Saving"
             },
             {
               "field": {

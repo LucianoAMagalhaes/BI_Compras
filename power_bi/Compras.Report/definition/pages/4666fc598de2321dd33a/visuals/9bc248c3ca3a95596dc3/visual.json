@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
   "name": "9bc248c3ca3a95596dc3",
   "position": {
-    "x": 9.5880149812734086,
-    "y": 207.34082397003746,
+    "x": 92.2337870296237,
+    "y": 207.01361088871096,
     "z": 1000,
-    "height": 275.65543071161051,
-    "width": 1256.0299625468165,
+    "height": 275.67654123298638,
+    "width": 1173.4187349879903,
     "tabOrder": 1000
   },
   "visual": {
@@ -190,7 +190,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Evolução de Spend vs Saving %'"
+                  "Value": "'Evolução de Gasto vs Saving %'"
                 }
               }
             }
